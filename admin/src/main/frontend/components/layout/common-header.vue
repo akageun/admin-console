@@ -40,7 +40,7 @@
         data: () => ({}),
         methods: {
             menuVisibleTrueStore() {
-                this.$store.dispatch("menuVisible", true);
+                this.$store.commit('menuVisible', true);
             }
         }
     }
