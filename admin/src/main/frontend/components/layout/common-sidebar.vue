@@ -1,5 +1,5 @@
 <template>
-    <sui-sidebar animation="overlay" class="inverted" :visible="visible">
+    <sui-sidebar animation="overlay" class="inverted" :visible="this.$store.state.visible">
         <!-- links -->
         <a class="item">
             <i class="sticky note icon"></i>
@@ -19,13 +19,7 @@
 <script>
     export default {
         name: "common-sidebar",
-        data: () => ({
-            visible : false
-        }),
-        mounted() {
-            this.visible = this.$store.state.visible;
-            console.log("test");
-        }
+        data: () => ({}),
     }
 </script>
 

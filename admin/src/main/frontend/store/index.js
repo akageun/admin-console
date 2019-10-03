@@ -8,13 +8,16 @@ export default new Vuex.Store({
     state: {
         visible: false
     },
-    getters: {},
+    getters: {
+        getVisible(state) {
+            return state.visible;
+        }
+    },
     mutations: {},
     actions: {
         menuVisible(state, visible) {
-            console.log("menuVisible : ", visible);
             state.visible = visible;
-            console.log(state.visible);
+            console.log("stste ", state.visible);
         }
     }
 })
