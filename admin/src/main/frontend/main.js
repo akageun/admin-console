@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import axios from 'axios';
 
 import SuiVue from 'semantic-ui-vue';
@@ -17,6 +18,7 @@ Vue.prototype.$http = axios; //모든페이지에서 axios를 편하게 사용�
 new Vue({
     el: '#app',
     router,
+    store,
     components: {App},
     template: '<App/>',
 })
