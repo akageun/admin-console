@@ -1,14 +1,41 @@
-server:
-    port: 9908
-
 spring:
-    thymeleaf:
-        cache: false
-    devtools:
-        livereload:
+    datasource:
+        main:
+            driver-class-name: org.h2.Driver
+            jdbcUrl: jdbc:h2:file:~/main11;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE;CACHE_SIZE=131072;
+            username: sa
+            password:
+            hikari:
+                pool-name: hikari-cp-03
+                maximum-pool-size: 30
+                minimum-idle: 2
+                data-source-properties:
+                    cachePrepStmts: true
+                    prepStmtCacheSize: 250
+                    prepStmtCacheSqlLimit: 2048
+                    useServerPrepStmts: true
+
+        log:
+            driver-class-name: org.h2.Driver
+            jdbcUrl: jdbc:h2:file:~/log11;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE;CACHE_SIZE=131072;
+            username: sa
+            password:
+            hikari:
+                pool-name: hikari-cp-02
+                maximum-pool-size: 30
+                minimum-idle: 2
+                data-source-properties:
+                    cachePrepStmts: true
+                    prepStmtCacheSize: 250
+                    prepStmtCacheSqlLimit: 2048
+                    useServerPrepStmts: true
+    jpa:
+        show-sql: true
+        open-in-view: false
+    h2:
+        console:
             enabled: true
-    profiles:
-        include:
-            - base
-            - base-${spring.profiles.active}
-        active: local
+            path: /h2-console
+            settings:
+                trace: false
+                web-allow-others: false
