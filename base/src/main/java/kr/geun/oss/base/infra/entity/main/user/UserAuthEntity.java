@@ -1,4 +1,4 @@
-package kr.geun.oss.base.infra.entity.main.entity;
+package kr.geun.oss.base.infra.entity.main.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;

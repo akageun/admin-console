@@ -8,7 +8,6 @@ spring:
         livereload:
             enabled: true
     profiles:
-        active: local
         include:
             - base
             - base-${spring.profiles.active}

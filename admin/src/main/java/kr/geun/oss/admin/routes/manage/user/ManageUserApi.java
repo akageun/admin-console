@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ManageUserApi {
 
+    @GetMapping("/api/v1/manage/user/list")
+    public String getManageUserList() {
+        return "";
+    }
+
     @GetMapping("/api/v1/manage/user/get")
     public String getManageUser() {
         return "";
