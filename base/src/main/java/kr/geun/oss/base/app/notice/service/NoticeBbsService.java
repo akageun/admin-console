@@ -1,6 +1,8 @@
 package kr.geun.oss.base.app.notice.service;
 
+import kr.geun.oss.base.infra.repo.main.notice.NoticeBbsRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,4 +14,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class NoticeBbsService {
+
+    @Autowired
+    private NoticeBbsRepo noticeBbsRepo;
+
+
 }
