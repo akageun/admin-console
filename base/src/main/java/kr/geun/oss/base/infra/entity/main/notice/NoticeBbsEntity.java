@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
  * @author akageun
  * @since 2019-10-07
  */
+@Entity
+@Table(name = "notice_bbs")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NoticeBbsEntity extends BaseEntity {

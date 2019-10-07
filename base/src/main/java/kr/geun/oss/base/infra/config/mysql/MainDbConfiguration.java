@@ -1,5 +1,6 @@
 package kr.geun.oss.base.infra.config.mysql;
 
+import com.google.common.collect.ImmutableMap;
 import com.zaxxer.hikari.HikariDataSource;
 import kr.geun.oss.base.infra.config.mysql.annotation.MainDb;
 import kr.geun.oss.base.infra.entity.main.MainTargetEntityAnnotation;
@@ -10,6 +11,7 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +21,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
@@ -32,7 +36,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author akageun
@@ -44,6 +47,9 @@ import java.util.Map;
     transactionManagerRef = "mainJpaTransactionManager",
     entityManagerFactoryRef = "mainEntityManagerFactory"
 )
+@EntityScan(basePackageClasses = {
+    MainTargetEntityAnnotation.class
+})
 @MapperScan(
     basePackages = "kr.geun.oss.base.infra.mapper.main.**",
     annotationClass = MainDb.class,
@@ -59,23 +65,50 @@ public class MainDbConfiguration {
 
     }
 
+    @Bean
+    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
+        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), new HashMap<>(), null);
+    }
+
+//    @Primary
+//    @Bean(name = "mainEntityManagerFactory")
+//    public LocalContainerEntityManagerFactoryBean mainEntityManagerFactory(
+//        EntityManagerFactoryBuilder builder,
+//        @Qualifier("mainDataSource") DataSource dataSource
+//    ) {
+//        Map<String, Object> properties = new HashMap<>();
+//        properties.put("hibernate.hbm2ddl.auto", "create");
+//
+//        return builder
+//            .dataSource(dataSource)
+//            .properties(properties)
+//            .persistenceUnit("mainPersistenceUnit")
+//            .build();
+//    }
+
     @Primary
     @Bean(name = "mainEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean mainEntityManagerFactory(
-        EntityManagerFactoryBuilder builder,
+    public EntityManagerFactory entityManagerFactory1(
         @Qualifier("mainDataSource") DataSource dataSource
     ) {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "create");
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
-        return builder
-            .dataSource(dataSource)
-            .properties(properties)
-            .packages(MainTargetEntityAnnotation.class)
-            .persistenceUnit("main")
-            .build();
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setDataSource(dataSource);
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setJpaPropertyMap(ImmutableMap.of(
+            "hibernate.hbm2ddl.auto", "create",
+            "hibernate.dialect", "org.hibernate.dialect.H2Dialect",
+            "hibernate.show_sql", "true"
+        ));
 
+        factory.setPackagesToScan("kr.geun.oss.base.infra.entity.main");
+        factory.setPersistenceUnitName("main");
+        factory.afterPropertiesSet();
+
+        return factory.getObject();
     }
+
 
     @Primary
     @Bean(name = "mainJpaTransactionManager")

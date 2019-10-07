@@ -10,5 +10,4 @@ spring:
     profiles:
         include:
             - base
-            - base-${spring.profiles.active}
-
+        active: local

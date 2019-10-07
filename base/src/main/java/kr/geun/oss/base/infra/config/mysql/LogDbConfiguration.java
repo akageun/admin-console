@@ -1,5 +1,6 @@
 package kr.geun.oss.base.infra.config.mysql;
 
+import com.google.common.collect.ImmutableMap;
 import com.zaxxer.hikari.HikariDataSource;
 import kr.geun.oss.base.infra.config.mysql.annotation.LogDb;
 import kr.geun.oss.base.infra.entity.log.LogTargetEntityAnnotation;
@@ -10,15 +11,17 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
@@ -30,8 +33,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * LogDbConfiguration
@@ -46,7 +47,7 @@ import java.util.Map;
     transactionManagerRef = "logJpaTransactionManager",
     entityManagerFactoryRef = "logEntityManagerFactory"
 )
-
+@EntityScan(basePackageClasses = {LogTargetEntityAnnotation.class})
 @MapperScan(
     basePackages = "kr.geun.oss.base.infra.mapper.log.**",
     annotationClass = LogDb.class,
@@ -62,20 +63,25 @@ public class LogDbConfiguration {
     }
 
     @Bean(name = "logEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean logEntityManagerFactory(
-        EntityManagerFactoryBuilder builder,
+    public EntityManagerFactory entityManagerFactory1(
         @Qualifier("logDataSource") DataSource dataSource
     ) {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "create");
-        return builder
-            .dataSource(dataSource)
-            .properties(properties)
-            .packages(LogTargetEntityAnnotation.class)
-            .persistenceUnit("log")
-            .build();
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setDataSource(dataSource);
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setJpaPropertyMap(ImmutableMap.of(
+            "hibernate.hbm2ddl.auto", "update",
+            "hibernate.dialect", "org.hibernate.dialect.H2Dialect",
+            "hibernate.show_sql", "true"
+        ));
 
+        factory.setPackagesToScan("kr.geun.oss.base.infra.entity.long");
+        factory.setPersistenceUnitName("log");
+        factory.afterPropertiesSet();
+
+        return factory.getObject();
     }
 
     @Bean(name = "logJpaTransactionManager")

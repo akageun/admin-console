@@ -1,11 +1,9 @@
 package kr.geun.oss.admin.routes.dashboard;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /**
  * HomeWeb
@@ -16,9 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Slf4j
 @Controller
 public class HomeWeb {
-
-    @Autowired
-    private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
     @GetMapping("/")
     public ModelAndView home(
