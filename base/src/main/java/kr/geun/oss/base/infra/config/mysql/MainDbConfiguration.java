@@ -45,7 +45,7 @@ import java.util.Map;
     entityManagerFactoryRef = "mainEntityManagerFactory"
 )
 @MapperScan(
-    basePackages = "kr.geun.oss.base.infra.dao.main.**",
+    basePackages = "kr.geun.oss.base.infra.mapper.main.**",
     annotationClass = MainDb.class,
     sqlSessionFactoryRef = "mainSQLSession"
 )
@@ -72,7 +72,7 @@ public class MainDbConfiguration {
             .dataSource(dataSource)
             .properties(properties)
             .packages(MainTargetEntityAnnotation.class)
-            .persistenceUnit("mapper/main")
+            .persistenceUnit("main")
             .build();
 
     }
@@ -92,65 +92,65 @@ public class MainDbConfiguration {
      * @return
      * @throws Exception
      */
-//    @Primary
-//    @Bean(name = "mainSQLSession")
-//    public SqlSessionFactoryBean sqlSessionFactoryBean(
-//        @Qualifier("mainDataSource") DataSource dataSource
-//    ) throws Exception {
-//
-//        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-//        sessionFactory.setDataSource(dataSource);
-//
-//        // mybatis mapper 위치 설정
-//        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/main/**/*.xml"));
-//        return sessionFactory;
-//    }
+    @Primary
+    @Bean(name = "mainSQLSession")
+    public SqlSessionFactoryBean sqlSessionFactoryBean(
+        @Qualifier("mainDataSource") DataSource dataSource
+    ) throws Exception {
+
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource);
+
+        // mybatis mapper 위치 설정
+        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/main/**/*.xml"));
+        return sessionFactory;
+    }
 
     /**
      * 트랜젝션 선언
      *
      * @return
      */
-//    @Bean(name = "mainTransactionManager")
-//    public DataSourceTransactionManager transactionManager(
-//        @Qualifier("mainDataSource") DataSource dataSource
-//    ) {
-//        return new DataSourceTransactionManager(dataSource);
-//    }
+    @Bean(name = "mainTransactionManager")
+    public DataSourceTransactionManager transactionManager(
+        @Qualifier("mainDataSource") DataSource dataSource
+    ) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 
     /**
      * aop 설정
      *
      * @return
      */
-//    @Bean(name = "mainTransactionAdvice")
-//    public TransactionInterceptor txAdvice(
-//        @Qualifier("mainTransactionManager") DataSourceTransactionManager transactionManager
-//    ) {
-//
-//        RuleBasedTransactionAttribute transactionAttribute = new RuleBasedTransactionAttribute();
-//        transactionAttribute.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
-//        //transactionAttribute.setTimeout(DBConstants.TX_METHOD_TIMEOUT);
-//
-//        NameMatchTransactionAttributeSource nameMatch = new NameMatchTransactionAttributeSource();
-//        nameMatch.addTransactionalMethod("add*", transactionAttribute);
-//        nameMatch.addTransactionalMethod("modify*", transactionAttribute);
-//        nameMatch.addTransactionalMethod("delete*", transactionAttribute);
-//
-//        return new TransactionInterceptor(transactionManager, nameMatch);
-//    }
+    @Bean(name = "mainTransactionAdvice")
+    public TransactionInterceptor txAdvice(
+        @Qualifier("mainTransactionManager") DataSourceTransactionManager transactionManager
+    ) {
+
+        RuleBasedTransactionAttribute transactionAttribute = new RuleBasedTransactionAttribute();
+        transactionAttribute.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
+        //transactionAttribute.setTimeout(DBConstants.TX_METHOD_TIMEOUT);
+
+        NameMatchTransactionAttributeSource nameMatch = new NameMatchTransactionAttributeSource();
+        nameMatch.addTransactionalMethod("add*", transactionAttribute);
+        nameMatch.addTransactionalMethod("modify*", transactionAttribute);
+        nameMatch.addTransactionalMethod("delete*", transactionAttribute);
+
+        return new TransactionInterceptor(transactionManager, nameMatch);
+    }
 
     /**
      * aop 대상 설정
      *
      * @return
      */
-//    @Bean(name = "mainTransactionAdvisor")
-//    public Advisor txAdviceAdvisor(
-//        @Qualifier("mainTransactionAdvice") TransactionInterceptor txAdvice
-//    ) {
-//        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-//        pointcut.setExpression("execution(* kr.geun.oss.base..*Svc.*(..))");
-//        return new DefaultPointcutAdvisor(pointcut, txAdvice);
-//    }
+    @Bean(name = "mainTransactionAdvisor")
+    public Advisor txAdviceAdvisor(
+        @Qualifier("mainTransactionAdvice") TransactionInterceptor txAdvice
+    ) {
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression("execution(* kr.geun.oss.base..*Svc.*(..))");
+        return new DefaultPointcutAdvisor(pointcut, txAdvice);
+    }
 }
