@@ -32,8 +32,8 @@ public class NoticeBbsService {
             .statusCd("NORMAL")
             .build();
 
-        log.info("entity : {}", entity);
-        //noticeBbsRepo.save(entity);
+        //log.info("entity : {}", entity);
+        noticeBbsRepo.save(entity);
     }
 
 }
