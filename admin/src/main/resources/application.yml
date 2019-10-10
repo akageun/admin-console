@@ -7,7 +7,5 @@ spring:
     devtools:
         livereload:
             enabled: true
-    profiles:
-        include:
-            - base
-        active: local
+    config:
+        additional-location: classpath:/config/
