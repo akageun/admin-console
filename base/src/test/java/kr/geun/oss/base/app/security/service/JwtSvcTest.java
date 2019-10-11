@@ -1,12 +1,8 @@
-package kr.geun.oss.admin.routes.manage.notice;
+package kr.geun.oss.base.app.security.service;
 
-import kr.geun.oss.base.app.notice.service.NoticeBbsService;
-import kr.geun.oss.base.infra.config.mysql.LogDbConfiguration;
-import kr.geun.oss.base.infra.config.mysql.MainDbConfiguration;
-import kr.geun.oss.base.infra.repo.main.notice.NoticeBbsRepo;
+import kr.geun.oss.base.BaseTestModule;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
@@ -14,17 +10,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @Slf4j
-@RunWith(SpringRunner.class)
-@ActiveProfiles({"local"})
-@Import({
-    MainDbConfiguration.class,
-    LogDbConfiguration.class
-})
 @EnableAutoConfiguration(exclude =
     {
         DataSourceAutoConfiguration.class,
@@ -34,18 +21,16 @@ import org.springframework.test.context.junit4.SpringRunner;
     }
 )
 @SpringBootTest(classes = {
-    ManageNoticeBbsApi.class,
-    NoticeBbsService.class,
-    NoticeBbsRepo.class
+    JwtSvc.class,
 })
-public class ManageNoticeBbsApiTest {
+public class JwtSvcTest extends BaseTestModule {
 
     @Autowired
-    private ManageNoticeBbsApi manageNoticeBbsApi;
-
+    private JwtSvc jwtSvc;
 
     @Test
-    public void test() {
-        manageNoticeBbsApi.manageNoticeList();
+    public void generateToken() {
+        //jwtSvc.generate(new PasswordAuthentication())
     }
+
 }
