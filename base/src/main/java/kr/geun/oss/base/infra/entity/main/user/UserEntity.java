@@ -34,6 +34,9 @@ public class UserEntity {
     @Column(nullable = false)
     private String passWd;
 
+    @Column(nullable = false)
+    private String useYn;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -45,9 +48,10 @@ public class UserEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public UserEntity(String userId, String passWd, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public UserEntity(String userId, String passWd, String useYn, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.userId = userId;
         this.passWd = passWd;
+        this.useYn = useYn;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

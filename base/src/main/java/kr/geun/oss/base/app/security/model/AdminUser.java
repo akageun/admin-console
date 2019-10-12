@@ -2,13 +2,16 @@ package kr.geun.oss.base.app.security.model;
 
 import kr.geun.oss.base.common.constants.AcConst;
 import kr.geun.oss.base.common.utils.DateUtils;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
-import java.util.Collection;
-import java.util.Date;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * AdminUser
@@ -31,6 +34,27 @@ public class AdminUser implements UserDetails {
     private Date passWdChangeDate;
     private Date lastLoginDate;
 
+    private Set<GrantedAuthority> authorities;
+
+    @Builder
+    public AdminUser(
+        String userId,
+        String passWd,
+        int loginFailCount,
+        String useYn,
+        Date passWdChangeDate,
+        Date lastLoginDate,
+        Set<GrantedAuthority> authorities
+    ) {
+        this.userId = userId;
+        this.passWd = passWd;
+        this.loginFailCount = loginFailCount;
+        this.useYn = useYn;
+        this.passWdChangeDate = passWdChangeDate;
+        this.lastLoginDate = lastLoginDate;
+        this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
+    }
+
     @Override
     public String getUsername() {
         return this.getUserId();
@@ -43,7 +67,7 @@ public class AdminUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return this.getAuthorities();
     }
 
     /**
@@ -102,5 +126,42 @@ public class AdminUser implements UserDetails {
         }
 
         return true;
+    }
+
+    private SortedSet<GrantedAuthority> sortAuthorities(
+        Collection<? extends GrantedAuthority> authorities) {
+        Assert.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
+        // Ensure array iteration order is predictable (as per
+        // UserDetails.getAuthorities() contract and SEC-717)
+        SortedSet<GrantedAuthority> sortedAuthorities = new TreeSet<>(
+            new AdminUser.AuthorityComparator());
+
+        for (GrantedAuthority grantedAuthority : authorities) {
+            Assert.notNull(grantedAuthority,
+                "GrantedAuthority list cannot contain any null elements");
+            sortedAuthorities.add(grantedAuthority);
+        }
+
+        return sortedAuthorities;
+    }
+
+    private static class AuthorityComparator implements Comparator<GrantedAuthority>, Serializable {
+        private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
+
+        public int compare(GrantedAuthority g1, GrantedAuthority g2) {
+            // Neither should ever be null as each entry is checked before adding it to
+            // the set.
+            // If the authority is null, it is a custom authority and should precede
+            // others.
+            if (g2.getAuthority() == null) {
+                return -1;
+            }
+
+            if (g1.getAuthority() == null) {
+                return 1;
+            }
+
+            return g1.getAuthority().compareTo(g2.getAuthority());
+        }
     }
 }
