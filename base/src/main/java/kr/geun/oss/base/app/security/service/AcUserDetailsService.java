@@ -66,11 +66,15 @@ public class AcUserDetailsService implements UserDetailsService {
             userEntity.getUseYn(),
             new Date(),
             new Date(),
-            mapToGrantedAuthorities(authList.stream().map(UserAuthEntity::getAuthorityCd).collect(Collectors.toList()))
+            mapToGrantedAuthorities(authList)
         );
     }
 
-    private Set<GrantedAuthority> mapToGrantedAuthorities(List<String> authorities) {
-        return authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+    private Set<GrantedAuthority> mapToGrantedAuthorities(List<UserAuthEntity> authList) {
+        return authList
+            .stream()
+            .map(UserAuthEntity::getAuthorityCd)
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toSet());
     }
 }
