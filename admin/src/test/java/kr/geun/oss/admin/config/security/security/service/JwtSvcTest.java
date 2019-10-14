@@ -1,6 +1,6 @@
-package kr.geun.oss.base.app.security.service;
+package kr.geun.oss.admin.config.security.security.service;
 
-import kr.geun.oss.base.BaseTestModule;
+import kr.geun.oss.admin.config.security.service.JwtSvc;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = {
     JwtSvc.class,
 })
-public class JwtSvcTest extends BaseTestModule {
+public class JwtSvcTest {
 
     @Autowired
     private JwtSvc jwtSvc;

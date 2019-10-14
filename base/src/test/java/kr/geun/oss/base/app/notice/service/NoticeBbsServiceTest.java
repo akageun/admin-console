@@ -1,7 +1,7 @@
 package kr.geun.oss.base.app.notice.service;
 
 import kr.geun.oss.base.BaseTestModule;
-import kr.geun.oss.base.infra.entity.main.notice.NoticeBbsEntity;
+import kr.geun.oss.base.infra.entity.main.notice.NoticeBbsModel;
 import kr.geun.oss.base.infra.repo.main.notice.NoticeBbsRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -36,7 +36,7 @@ public class NoticeBbsServiceTest extends BaseTestModule {
     public void saveTest() {
         noticeBbsService.save();
 
-        for (NoticeBbsEntity noticeBbsEntity : noticeBbsService.findAll()) {
+        for (NoticeBbsModel noticeBbsEntity : noticeBbsService.findAll()) {
             log.info("entity : {}", noticeBbsEntity);
         }
     }

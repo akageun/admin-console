@@ -1,4 +1,4 @@
-package kr.geun.oss.base.common.entity;
+package kr.geun.oss.base.common.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author akageun
  * @since 2019-10-07
  */
-public abstract class BaseEntity {
+public abstract class BaseModel {
 
     @Override
     public String toString() {

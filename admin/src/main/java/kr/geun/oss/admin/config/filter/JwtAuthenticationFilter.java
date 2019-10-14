@@ -1,7 +1,7 @@
 package kr.geun.oss.admin.config.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import kr.geun.oss.base.app.security.service.JwtSvc;
+import kr.geun.oss.admin.config.security.service.JwtSvc;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

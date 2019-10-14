@@ -1,4 +1,4 @@
-package kr.geun.oss.base.app.security.service;
+package kr.geun.oss.admin.config.security.service;
 
 import io.jsonwebtoken.ClaimJwtException;
 import io.jsonwebtoken.Claims;
@@ -30,7 +30,7 @@ public class JwtSvc {
 
     public static final String JWT_HEADER_STRING = "Authorization";
 
-    public static final String JWT_PREFIX = "Bearer ";
+    private static final String JWT_PREFIX = "Bearer ";
     private static final String AUTHORITIES_KEY_NM = "auth";
     private static final long TOKEN_EXPIRE_MS = 3600 * 1000; //1Hours
     private static final String TOKEN_CREATED_AT = "tca";

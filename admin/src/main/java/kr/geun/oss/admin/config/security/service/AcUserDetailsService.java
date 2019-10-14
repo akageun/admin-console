@@ -1,6 +1,6 @@
-package kr.geun.oss.base.app.security.service;
+package kr.geun.oss.admin.config.security.service;
 
-import kr.geun.oss.base.app.security.model.AdminUser;
+import kr.geun.oss.admin.config.security.model.AdminUser;
 import kr.geun.oss.base.infra.entity.main.user.UserAuthEntity;
 import kr.geun.oss.base.infra.entity.main.user.UserEntity;
 import kr.geun.oss.base.infra.repo.main.user.UserAuthRepository;
@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,8 +64,8 @@ public class AcUserDetailsService implements UserDetailsService {
             userEntity.getPassWd(),
             0,
             userEntity.getUseYn(),
-            new Date(),
-            new Date(),
+            LocalDateTime.now(),
+            LocalDateTime.now(),
             mapToGrantedAuthorities(authList)
         );
     }

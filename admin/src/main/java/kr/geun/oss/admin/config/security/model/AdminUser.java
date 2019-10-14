@@ -1,7 +1,6 @@
-package kr.geun.oss.base.app.security.model;
+package kr.geun.oss.admin.config.security.model;
 
 import kr.geun.oss.base.common.constants.AcConst;
-import kr.geun.oss.base.common.utils.DateUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -31,8 +32,8 @@ public class AdminUser implements UserDetails {
     private int loginFailCount;
     private String useYn;
 
-    private Date passWdChangeDate;
-    private Date lastLoginDate;
+    private LocalDateTime passWdChange;
+    private LocalDateTime lastLogin;
 
     private Set<GrantedAuthority> authorities;
 
@@ -42,16 +43,16 @@ public class AdminUser implements UserDetails {
         String passWd,
         int loginFailCount,
         String useYn,
-        Date passWdChangeDate,
-        Date lastLoginDate,
+        LocalDateTime passWdChange,
+        LocalDateTime lastLogin,
         Set<GrantedAuthority> authorities
     ) {
         this.userId = userId;
         this.passWd = passWd;
         this.loginFailCount = loginFailCount;
         this.useYn = useYn;
-        this.passWdChangeDate = passWdChangeDate;
-        this.lastLoginDate = lastLoginDate;
+        this.passWdChange = passWdChange;
+        this.lastLogin = lastLogin;
         this.authorities = Collections.unmodifiableSet(sortAuthorities(authorities));
     }
 
@@ -77,8 +78,8 @@ public class AdminUser implements UserDetails {
      */
     @Override
     public boolean isAccountNonExpired() {
-        Date date = DateUtils.minusDays(new Date(), AcConst.LOGIN_EXPIRED_PERIOD);
-        if (date.before(this.getPassWdChangeDate())) {
+        LocalDateTime ldt = LocalDateTime.now().minus(Duration.ofDays(AcConst.LOGIN_EXPIRED_PERIOD));
+        if (ldt.isBefore(this.getLastLogin())) {
             return false;
         }
 
@@ -106,8 +107,8 @@ public class AdminUser implements UserDetails {
      */
     @Override
     public boolean isCredentialsNonExpired() {
-        Date date = DateUtils.minusDays(new Date(), AcConst.PASSWD_CHANGE_PERIOD);
-        if (date.before(this.getPassWdChangeDate())) {
+        LocalDateTime ldt = LocalDateTime.now().minus(Duration.ofDays(AcConst.LOGIN_EXPIRED_PERIOD));
+        if (ldt.isBefore(this.getPassWdChange())) {
             return false;
         }
 

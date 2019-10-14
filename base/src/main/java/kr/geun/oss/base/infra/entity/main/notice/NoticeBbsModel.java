@@ -1,7 +1,7 @@
 package kr.geun.oss.base.infra.entity.main.notice;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import kr.geun.oss.base.common.entity.BaseEntity;
+import kr.geun.oss.base.common.model.BaseModel;
 import kr.geun.oss.base.common.utils.DateUtils;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,10 +23,10 @@ import java.time.LocalDateTime;
 @Table(name = "notice_bbs")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class NoticeBbsEntity extends BaseEntity {
+public class NoticeBbsModel extends BaseModel {
 
     @Builder
-    public NoticeBbsEntity(
+    public NoticeBbsModel(
         String statusCd, String title, String content,
         String createdUserId, String updatedUserId,
         LocalDateTime createdAt, LocalDateTime updatedAt
