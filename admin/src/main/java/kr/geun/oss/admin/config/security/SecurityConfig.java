@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.antMatchers("/api/bbs/**")
 					.hasAnyRole("ROLE_USER", "ROLE_ADMIN")
-				.antMatchers("/api/admin/**")
+				.antMatchers("/api/manage/**")
 					.hasAnyRole("ROLE_ADMIN")
 			.anyRequest()
 				.permitAll()
