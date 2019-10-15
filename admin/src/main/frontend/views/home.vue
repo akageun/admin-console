@@ -42,18 +42,11 @@
             <common-footer/>
         </sui-sidebar-pusher>
     </sui-sidebar-pushable>
-
-
 </template>
 
 <script>
-    import commonSidebar from "@/components/layout/common-sidebar";
-    import commonFooter from "@/components/layout/common-footer";
-    import commonHeader from "@/components/layout/common-header";
-
     export default {
         name: 'Home',
-        components: {commonSidebar, commonFooter, commonHeader},
         data: () => ({
             msg: 'Welcome to Your Vue.js App'
         }),

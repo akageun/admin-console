@@ -16,6 +16,7 @@
 
     .main {
         margin-top: 70px;
+        margin-bottom: 50px;
         height: inherit;
     }
 </style>

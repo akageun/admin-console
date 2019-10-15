@@ -44,9 +44,9 @@
     }
 </script>
 
-<style scoped>
+<style>
     .footer {
-        margin: 5em 0em 0em;
+        margin-top:100px;
         padding: 5em 0em;
     }
 </style>

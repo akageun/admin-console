@@ -9,6 +9,15 @@ import axios from 'axios';
 import SuiVue from 'semantic-ui-vue';
 import 'semantic-ui-css/semantic.min.css';
 
+import commonSidebar from "@/components/layout/common-sidebar";
+import commonFooter from "@/components/layout/common-footer";
+import commonHeader from "@/components/layout/common-header";
+
+
+Vue.component(commonSidebar.name, commonSidebar);
+Vue.component(commonFooter.name, commonFooter);
+Vue.component(commonHeader.name, commonHeader);
+
 Vue.use(SuiVue);
 
 Vue.config.productionTip = false;
