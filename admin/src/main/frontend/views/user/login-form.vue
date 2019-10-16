@@ -14,20 +14,22 @@
                                 type="email"
                                 placeholder="E-mail address"
                                 icon="user"
-                                icon-position="left" />
+                                icon-position="left"/>
                         </sui-form-field>
                         <sui-form-field>
                             <sui-input
                                 type="password"
                                 placeholder="Password"
                                 icon="lock"
-                                icon-position="left" />
+                                icon-position="left"/>
                         </sui-form-field>
                         <sui-button size="large" color="teal" fluid>Login</sui-button>
                     </sui-segment>
                 </sui-form>
 
-                <sui-message>New to us? <a href="#">Sign Up</a></sui-message>
+                <sui-message>New to us?
+                    <router-link to="/signup">Sign Up</router-link>
+                </sui-message>
             </sui-grid-column>
         </sui-grid>
     </div>
@@ -35,7 +37,10 @@
 
 <script>
     export default {
-        name: "login-form"
+        name: "login-form",
+        data: () => ({
+
+        }),
     }
 </script>
 
@@ -45,9 +50,11 @@
         height: 100vh;
         margin: 1em 0;
     }
+
     .grid {
         height: 100%;
     }
+
     .column {
         max-width: 450px;
         text-align: center !important;
