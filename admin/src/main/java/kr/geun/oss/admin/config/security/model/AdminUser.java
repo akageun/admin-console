@@ -1,6 +1,7 @@
 package kr.geun.oss.admin.config.security.model;
 
 import kr.geun.oss.base.common.constants.AcConst;
+import kr.geun.oss.base.common.model.BaseModel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.*;
  */
 @Getter
 @NoArgsConstructor
-public class AdminUser implements UserDetails {
+public class AdminUser extends BaseModel implements UserDetails {
 
     private static final long serialVersionUID = -2821226048682020940L;
 
