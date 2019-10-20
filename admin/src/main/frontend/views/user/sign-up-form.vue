@@ -10,16 +10,20 @@
                 <sui-form onsubmit="return false;">
                     <sui-segment stacked aligned="left">
                         <sui-form-field>
-                            <label>Email</label>
-                            <input placeholder="First Name">
+                            <label>user Id</label>
+                            <input type="text" placeholder="User Id" v-model="userId">
                         </sui-form-field>
                         <sui-form-field>
                             <label>Password</label>
-                            <input placeholder="Last Name">
+                            <input type="password" placeholder="Password" v-model="passWd">
                         </sui-form-field>
                         <sui-form-field>
                             <label>Password Confirm</label>
-                            <input placeholder="Last Name">
+                            <input type="password" placeholder="Confirm Password" v-model="confirmPassWd">
+                        </sui-form-field>
+                        <sui-form-field>
+                            <label>Email</label>
+                            <input type="email" placeholder="Email" v-model="email">
                         </sui-form-field>
                         <sui-form-field>
                             <sui-checkbox label="I agree to the Terms and Conditions"/>
@@ -36,11 +40,14 @@
     export default {
         name: "sign-up-form",
         data: () => ({
-
+            userId: '',
+            passWd: '',
+            confirmPassWd: '',
+            email: ''
         }),
         methods: {
             signup() {
-                console.log("test");
+                console.log(this.userId, this.passWd, this.confirmPassWd, this.email);
             }
         }
     }
