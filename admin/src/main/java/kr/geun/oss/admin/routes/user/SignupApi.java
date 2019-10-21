@@ -1,9 +1,12 @@
 package kr.geun.oss.admin.routes.user;
 
 import kr.geun.oss.base.app.user.model.SignupModel;
+import kr.geun.oss.base.app.user.service.UserManageSvc;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -18,13 +21,20 @@ import javax.validation.Valid;
 @RestController
 public class SignupApi {
 
-    @PostMapping("/api/signup/v1")
+    @Autowired
+    private UserManageSvc userManageSvc;
+
+    @PostMapping("/api/signup/v1/form")
     public String signup(
-        @Valid SignupModel param,
+        @RequestBody @Valid SignupModel param,
         BindingResult result
     ) {
-        log.info("param :{}", param);
-        log.info("result : {}", result);
+        if (result.hasErrors()) {
+
+        }
+
+        userManageSvc.vaild(param.getUserId(), param.getEmail());
+        userManageSvc.createUser(param.getUserId(), param.getPassWd(), param.getEmail());
 
         return "OK";
     }

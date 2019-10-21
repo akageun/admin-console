@@ -48,6 +48,52 @@
         methods: {
             signup() {
                 console.log(this.userId, this.passWd, this.confirmPassWd, this.email);
+                if (!this.valid()) {
+                    return;
+                }
+
+                this.$http.post(`/api/signup/v1/form`, {
+                    userId: this.userId,
+                    passWd: this.passWd,
+                    confirmPassWd: this.confirmPassWd,
+                    email: this.email
+                })
+                    .then((data) => {
+                        console.log("data ", data)
+
+                    })
+                    .catch((error) => {
+                        console.log("에러 ", error);
+                    });
+
+            },
+            valid() {
+                if (!this.userId) {
+                    alert("아이디를 입력해주세요.");
+                    return false;
+                }
+
+                if (!this.passWd) {
+                    alert("비밀번호를 입력해주세요.")
+                    return false;
+                }
+
+                if (!this.confirmPassWd) {
+                    alert("비밀번호를 다시한번 입력해주세요.")
+                    return false;
+                }
+
+                if (this.passWd !== this.confirmPassWd) {
+                    alert("비밀번호가 일치하지 않습니다.");
+                    return false;
+                }
+
+                if (!this.email) {
+                    alert("이메일을 입력해주세요.");
+                    return false;
+                }
+
+                return true;
             }
         }
     }

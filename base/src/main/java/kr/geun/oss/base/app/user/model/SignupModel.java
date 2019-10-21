@@ -21,17 +21,22 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SignupModel extends BaseModel {
 
+    @NotBlank
     private String userId;
+    @NotBlank
     private String passWd;
+    @NotBlank
     private String confirmPassWd;
+    @Email
     private String email;
 
     @Builder
     public SignupModel(
-        @NotBlank String userId,
-        @NotBlank String passWd,
-        @NotBlank String confirmPassWd,
-        @Email String email) {
+        String userId,
+        String passWd,
+        String confirmPassWd,
+        String email
+    ) {
         this.userId = userId;
         this.passWd = passWd;
         this.confirmPassWd = confirmPassWd;
