@@ -38,7 +38,7 @@ public class UserManageSvc {
      * @param userId
      * @param email
      */
-    public void vaild(String userId, String email) {
+    public void valid(String userId, String email) {
         UserEntity entity = userRepository.findById(userId).orElse(null);
         if (entity != null) {
             throw new RuntimeException("Already User Id");

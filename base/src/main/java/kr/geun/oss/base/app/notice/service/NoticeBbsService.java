@@ -1,6 +1,6 @@
 package kr.geun.oss.base.app.notice.service;
 
-import kr.geun.oss.base.infra.entity.main.notice.NoticeBbsModel;
+import kr.geun.oss.base.infra.entity.main.notice.NoticeBbsEntity;
 import kr.geun.oss.base.infra.repo.main.notice.NoticeBbsRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,14 @@ public class NoticeBbsService {
     @Autowired
     private NoticeBbsRepo noticeBbsRepo;
 
-    public List<NoticeBbsModel> findAll() {
+
+
+    public List<NoticeBbsEntity> findAll() {
         return noticeBbsRepo.findAll();
     }
 
     public void save() {
-        NoticeBbsModel entity = NoticeBbsModel.builder()
+        NoticeBbsEntity entity = NoticeBbsEntity.builder()
             .title("제목")
             .content("내용")
             .statusCd("NORMAL")

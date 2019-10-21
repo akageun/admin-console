@@ -33,7 +33,7 @@ public class SignupApi {
 
         }
 
-        userManageSvc.vaild(param.getUserId(), param.getEmail());
+        userManageSvc.valid(param.getUserId(), param.getEmail());
         userManageSvc.createUser(param.getUserId(), param.getPassWd(), param.getEmail());
 
         return "OK";

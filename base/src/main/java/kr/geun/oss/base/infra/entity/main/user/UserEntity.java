@@ -1,6 +1,7 @@
 package kr.geun.oss.base.infra.entity.main.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,9 @@ import java.time.LocalDateTime;
  * @since 2019-09-30
  */
 @Getter
-@NoArgsConstructor
 @Entity
 @Table(name = "user")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserEntity {
 
     @Id

@@ -23,10 +23,10 @@ import java.time.LocalDateTime;
 @Table(name = "notice_bbs")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class NoticeBbsModel extends BaseModel {
+public class NoticeBbsEntity extends BaseModel {
 
     @Builder
-    public NoticeBbsModel(
+    public NoticeBbsEntity(
         String statusCd, String title, String content,
         String createdUserId, String updatedUserId,
         LocalDateTime createdAt, LocalDateTime updatedAt
@@ -41,24 +41,24 @@ public class NoticeBbsModel extends BaseModel {
     }
 
     @Id
-    @Column
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long noticeId;
 
-    @Column
+    @Column(nullable = false)
     private String statusCd;
 
-    @Column
+    @Column(nullable = false)
     private String title;
 
     @Lob
-    @Column
+    @Column(nullable = false)
     private String content;
 
-    @Column
+    @Column(nullable = false, updatable = false)
     private String createdUserId;
 
-    @Column
+    @Column(nullable = false)
     private String updatedUserId;
 
     /**
